@@ -1,6 +1,7 @@
 package com.coo.mvp_coco.ui.main;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
+import timber.log.Timber;
 
 
 public class MainActivity extends BaseActivity implements MainMvpView{
@@ -36,6 +38,8 @@ public class MainActivity extends BaseActivity implements MainMvpView{
         setUnBinder(ButterKnife.bind(this));
 
         mPresenter.onAttach(this);
+
+//        Timber.tag("main");
     }
 
     @Override
@@ -48,14 +52,14 @@ public class MainActivity extends BaseActivity implements MainMvpView{
         switch (view.getId()){
             case R.id.btn_test:
                 mPresenter.netRequest();
-                /*TestTabel tabel = new TestTabel();
+                TestTabel tabel = new TestTabel();
                 tabel.setInfo("你好");
                 tabel.setName("xsy");
                 mPresenter.insertTestData(tabel).subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) throws Exception {
-
-                        AppLogger.e("result"," ---- success ");
+//                        Log.e("result","aLong =  "+aLong);
+                        Timber.e("aLong =  "+aLong);
                     }
                 });
 
@@ -63,9 +67,10 @@ public class MainActivity extends BaseActivity implements MainMvpView{
                 mPresenter.getAllData().subscribe(new Consumer<List<TestTabel>>() {
                     @Override
                     public void accept(List<TestTabel> testTabels) throws Exception {
-                        AppLogger.e("result","testTabels = "+testTabels);
+//                        Log.e("result","testTabels = "+testTabels);
+                        Timber.e("testTabels = "+testTabels);
                     }
-                });*/
+                });
                 break;
         }
     }

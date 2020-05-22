@@ -3,6 +3,7 @@ package com.coo.mvp_coco.ui.main;
 import android.widget.Toast;
 
 import com.coo.mvp_coco.data.AppDataManager;
+import com.coo.mvp_coco.data.DataManager;
 import com.coo.mvp_coco.db.AppDbHelper;
 import com.coo.mvp_coco.db.DBHelper;
 import com.coo.mvp_coco.db.DBOpenHelper;
@@ -24,12 +25,8 @@ public class MainPresenter<V extends MainMvpView> extends BasePresenter<V> imple
     private static final String TAG = "MainPresenter";
 
     @Inject
-    AppDataManager appDataManager;
-
-
-    @Inject
-    public MainPresenter(SchedulerProvider mSchedulerProvider) {
-        super(mSchedulerProvider);
+    public MainPresenter(DataManager dataManager, SchedulerProvider mSchedulerProvider) {
+        super(dataManager,mSchedulerProvider);
     }
 
 
@@ -49,13 +46,13 @@ public class MainPresenter<V extends MainMvpView> extends BasePresenter<V> imple
                 });
     }
 
-    /*@Override
+    @Override
     public Observable<Long> insertTestData(TestTabel tabel) {
-        return appDataManager.insertTestData(tabel);
+        return getmDataManager().insertTestData(tabel);
     }
 
     @Override
     public Observable<List<TestTabel>> getAllData() {
-        return appDataManager.getAllTestData();
-    }*/
+        return getmDataManager().getAllTestData();
+    }
 }

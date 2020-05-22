@@ -32,7 +32,7 @@ android {
         /**
          * 版本号
          */
-        schemaVersion 1
+        schemaVersion 3
         /**
          * greendao输出dao的数据库操作实体类文件夹（相对路径 包名+自定义路径名称，包将创建于包名的直接路径下）
          */

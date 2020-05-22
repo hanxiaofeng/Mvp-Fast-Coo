@@ -1,5 +1,6 @@
 package com.coo.mvp_coco.ui.base;
 
+import com.coo.mvp_coco.data.DataManager;
 import com.coo.mvp_coco.utils.rx.SchedulerProvider;
 
 import javax.inject.Inject;
@@ -16,8 +17,11 @@ public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
 
     protected Disposable disposable;
 
+    private final DataManager mDataManager;
+
     @Inject
-    public BasePresenter(SchedulerProvider mSchedulerProvider) {
+    public BasePresenter(DataManager mDataManager, SchedulerProvider mSchedulerProvider) {
+        this.mDataManager = mDataManager;
         this.mSchedulerProvider = mSchedulerProvider;
     }
 
@@ -40,6 +44,10 @@ public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
 
     public V getMvpView() {
         return mMvpView;
+    }
+
+    public DataManager getmDataManager() {
+        return mDataManager;
     }
 
     public SchedulerProvider getSchedulerProvider() {

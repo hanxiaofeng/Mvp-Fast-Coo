@@ -13,7 +13,7 @@ public interface MainMvpPresenter<V extends MainMvpView> extends MvpPresenter<V>
 
     void netRequest();
 
-//    Observable<Long> insertTestData(TestTabel tabel);
-//
-//    Observable<List<TestTabel>> getAllData();
+    Observable<Long> insertTestData(TestTabel tabel);
+
+    Observable<List<TestTabel>> getAllData();
 }
