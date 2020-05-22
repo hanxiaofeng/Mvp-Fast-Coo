@@ -1,8 +1,10 @@
-package com.coo.mvp_fast_coo;
+package com.coo.mvp_fast_coo.ui.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.coo.mvp_fast_coo.R;
 
 public class MainActivity extends AppCompatActivity {
 
