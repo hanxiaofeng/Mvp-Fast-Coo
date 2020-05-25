@@ -1,2 +1,2 @@
-include ':app', ':mvp-coco'
+include ':mvp-coco'
 rootProject.name='Mvp-Fast-Coo'
