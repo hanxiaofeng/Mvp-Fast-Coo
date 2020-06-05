@@ -52,7 +52,7 @@ public class MainActivity extends BaseActivity implements MainMvpView{
         switch (view.getId()){
             case R.id.btn_test:
                 mPresenter.netRequest();
-                TestTabel tabel = new TestTabel();
+                /*TestTabel tabel = new TestTabel();
                 tabel.setInfo("你好");
                 tabel.setName("xsy");
                 mPresenter.insertTestData(tabel).subscribe(new Consumer<Long>() {
@@ -70,7 +70,7 @@ public class MainActivity extends BaseActivity implements MainMvpView{
 //                        Log.e("result","testTabels = "+testTabels);
                         Timber.e("testTabels = "+testTabels);
                     }
-                });
+                });*/
                 break;
         }
     }
