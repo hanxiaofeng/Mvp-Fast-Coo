@@ -13,6 +13,7 @@ import com.coo.mvp_coco.di.component.DaggerActivityComponent;
 import com.coo.mvp_coco.di.module.ActivityModule;
 import com.coo.mvp_coco.utils.CommonUtils;
 
+import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class BaseActivity extends AppCompatActivity implements MvpView{
@@ -32,6 +33,8 @@ public class BaseActivity extends AppCompatActivity implements MvpView{
                 .activityModule(new ActivityModule(this))
                 .applicationComponent(((MvpApp)getApplication()).getComponent())
                 .build();
+
+        setUnBinder(ButterKnife.bind(this));
     }
 
     public ActivityComponent getmActivityComponent() {
@@ -58,7 +61,7 @@ public class BaseActivity extends AppCompatActivity implements MvpView{
 
     @Override
     public void showMessage(int resId) {
-
+        Toast.makeText(this, getString(resId), Toast.LENGTH_SHORT).show();
     }
 
     @Override

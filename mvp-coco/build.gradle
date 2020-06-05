@@ -100,4 +100,6 @@ dependencies {
 
     implementation "com.github.ybq:Android-SpinKit:$rootProject.spinKitVersion"
     implementation project(path: ':coonet')
+    //api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.47'
+    api "com.github.CymChad:BaseRecyclerViewAdapterHelper:$rootProject.adapterHelper"
 }
