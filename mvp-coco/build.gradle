@@ -98,5 +98,5 @@ dependencies {
     // logger
     api "com.jakewharton.timber:timber:$rootProject.timberVersion"
 
-
+    implementation "com.blankj:utilcodex:$rootProject.utilcodexVersion"
 }
