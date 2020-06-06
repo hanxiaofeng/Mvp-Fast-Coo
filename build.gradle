@@ -5,6 +5,7 @@ buildscript {
         google()
         jcenter()
         mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.1'
@@ -21,6 +22,7 @@ allprojects {
         google()
         jcenter()
         mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
 }
 
@@ -52,5 +54,7 @@ ext {
     placeholderviewVersion = '0.6.1'
     debugDBVersion = '1.0.3'
     timberVersion = '4.5.1'
+    spinKitVersion = '1.4.0'
+    adapterHelper = '3.0.2'
     utilcodexVersion = '1.28.5'
 }

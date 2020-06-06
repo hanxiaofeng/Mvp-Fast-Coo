@@ -5,4 +5,6 @@ public class AppConstants {
     public static final String DB_NAME = "test.db";
 
     public static final String TIMESTAMP_FORMAT = "yyyyMMdd_HHmmss";
+
+    public static final String BaseUrl = "https://www.wanandroid.com";
 }

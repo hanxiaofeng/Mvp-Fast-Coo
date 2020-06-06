@@ -35,8 +35,6 @@ public class MainActivity extends BaseActivity implements MainMvpView{
 
         getmActivityComponent().inject(this);
 
-        setUnBinder(ButterKnife.bind(this));
-
         mPresenter.onAttach(this);
 
 //        Timber.tag("main");
