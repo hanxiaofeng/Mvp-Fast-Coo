@@ -1,6 +1,5 @@
 package com.coo.mvp_coco.ui.home;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -11,8 +10,8 @@ import com.coo.mvp_coco.ui.base.BaseActivity;
 import com.coo.mvp_coco.ui.home.adapter.MyFragmentPagerAdapter;
 import com.coo.mvp_coco.ui.home.fragment.ContactsFragment;
 import com.coo.mvp_coco.ui.home.fragment.FindFragment;
+import com.coo.mvp_coco.ui.home.fragment.HomeFragment;
 import com.coo.mvp_coco.ui.home.fragment.MeFragment;
-import com.coo.mvp_coco.ui.home.fragment.MessageFragment;
 import com.coo.mvp_coco.ui.view.TabGroupView;
 import com.coo.mvp_coco.ui.view.TabView;
 
@@ -20,8 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import butterknife.ButterKnife;
 
 public class HomeActivity extends BaseActivity implements HomeMvpView,TabGroupView.OnItemClickListener{
 
@@ -74,7 +71,7 @@ public class HomeActivity extends BaseActivity implements HomeMvpView,TabGroupVi
     }
 
     private void initFragments() {
-        mFragments.add(new MessageFragment());
+        mFragments.add(new HomeFragment());
         mFragments.add(new ContactsFragment());
         mFragments.add(new FindFragment());
         mFragments.add(new MeFragment());

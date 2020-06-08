@@ -1,19 +1,18 @@
 package com.coo.mvp_coco.di.component;
 
 import com.coo.mvp_coco.di.PerActivity;
-import com.coo.mvp_coco.di.module.ActivityModule;
 import com.coo.mvp_coco.di.module.FragmentModule;
-import com.coo.mvp_coco.ui.home.HomeActivity;
 import com.coo.mvp_coco.ui.home.fragment.ContactsFragment;
 import com.coo.mvp_coco.ui.home.fragment.FindFragment;
+import com.coo.mvp_coco.ui.home.fragment.HomeFragment;
 import com.coo.mvp_coco.ui.home.fragment.MeFragment;
-import com.coo.mvp_coco.ui.home.fragment.MessageFragment;
-import com.coo.mvp_coco.ui.main.MainActivity;
+
+import javax.inject.Singleton;
 
 import dagger.Component;
 
 @PerActivity
-@Component(dependencies = ApplicationComponent.class,modules = FragmentModule.class)
+@Component(modules = FragmentModule.class,dependencies = ApplicationComponent.class)
 public interface FragmentComponent {
 
     void inject(ContactsFragment contactsFragment);
@@ -22,6 +21,6 @@ public interface FragmentComponent {
 
     void inject(MeFragment findFragment);
 
-    void inject(MessageFragment messageFragment);
+    void inject(HomeFragment homeFragment);
 
 }

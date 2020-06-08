@@ -43,8 +43,12 @@ public class BaseFragment extends Fragment implements MvpView {
 
         mFragmentComponent = DaggerFragmentComponent.builder()
                 .fragmentModule(new FragmentModule(this))
-                .applicationComponent(((MvpApp)getActivity().getApplication()).getComponent())
+                .applicationComponent(((MvpApp)context).getComponent())
                 .build();
+
+        /*mFragmentComponent = DaggerFragmentComponent.builder()
+                .fragmentModule(new FragmentModule(this))
+                .build();*/
 
 
     }
@@ -58,6 +62,10 @@ public class BaseFragment extends Fragment implements MvpView {
         if (contentView == null)
             return super.onCreateView(inflater, container, savedInstanceState);
         return contentView;
+    }
+
+    public FragmentComponent getmFragmentComponent() {
+        return mFragmentComponent;
     }
 
     protected void onCreateView(Bundle savedInstanceState) {
