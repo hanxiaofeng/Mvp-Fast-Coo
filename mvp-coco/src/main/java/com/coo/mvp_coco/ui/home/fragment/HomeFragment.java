@@ -1,11 +1,17 @@
 package com.coo.mvp_coco.ui.home.fragment;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
 
 import com.coo.mvp_coco.R;
 import com.coo.mvp_coco.di.component.ActivityComponent;
+import com.coo.mvp_coco.ui.base.BaseFragment;
 import com.coo.mvp_coco.ui.home.HomeModel;
+import com.coo.mvp_coco.ui.home.HomeMvpView;
 import com.coo.mvp_coco.ui.home.fragment.msgfg.HomeFragmentMvpView;
 import com.coo.mvp_coco.ui.home.fragment.msgfg.HomeFragmentPresenter;
 
@@ -17,26 +23,32 @@ import butterknife.ButterKnife;
 /**
  * 消息
  */
-public class HomeFragment extends LazyFragment implements HomeFragmentMvpView {
+public class HomeFragment extends BaseFragment implements HomeFragmentMvpView {
+
+    private int pageNumber = 0;
 
     @Inject
-    HomeFragmentPresenter homeFragmentPresenter;
+    HomeFragmentPresenter<HomeFragmentMvpView> homeFragmentPresenter;
 
+    @Nullable
     @Override
-    protected void onCreateViewLazy(Bundle savedInstanceState) {
-        super.onCreateViewLazy(savedInstanceState);
-        setContentView(R.layout.fragment_message,savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_message, container, false);
 
         ActivityComponent component = getActivityComponent();
         if (component != null) {
             component.inject(this);
             homeFragmentPresenter.onAttach(this);
         }
+
+        return view;
     }
 
     @Override
-    protected void onDestroyViewLazy() {
-        super.onDestroyViewLazy();
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        homeFragmentPresenter.getAllArticle(pageNumber);
     }
 
     @Override

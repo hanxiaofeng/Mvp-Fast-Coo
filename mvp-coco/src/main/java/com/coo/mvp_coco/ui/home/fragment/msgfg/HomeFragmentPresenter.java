@@ -37,9 +37,7 @@ public class HomeFragmentPresenter<V extends HomeFragmentMvpView> extends BasePr
                     @Override
                     public void onSuccess(HomeModel homeModel) {
                         Timber.e("homeModel = "+homeModel);
-
-
-
+                        getMvpView().refreshView(homeModel);
                     }
                 }) {
                 });
