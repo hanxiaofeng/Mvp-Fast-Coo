@@ -1,9 +1,13 @@
 package com.coo.mvp_coco.ui.base;
 
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.coo.mvp_coco.MvpApp;
@@ -12,11 +16,12 @@ import com.coo.mvp_coco.di.component.ActivityComponent;
 import com.coo.mvp_coco.di.component.DaggerActivityComponent;
 import com.coo.mvp_coco.di.module.ActivityModule;
 import com.coo.mvp_coco.utils.CommonUtils;
+import com.google.android.material.snackbar.Snackbar;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class BaseActivity extends AppCompatActivity implements MvpView{
+public class BaseActivity extends AppCompatActivity implements MvpView, BaseFragment.Callback{
 
     private ProgressDialog mProgressDialog;
 
@@ -79,6 +84,30 @@ public class BaseActivity extends AppCompatActivity implements MvpView{
 
     }
 
+    @Override
+    public void onError(String message) {
+        if (message != null) {
+            showSnackBar(message);
+        } else {
+            showSnackBar(getString(R.string.some_error));
+        }
+    }
+
+    @Override
+    public void onError(@StringRes int resId) {
+        onError(getString(resId));
+    }
+
+    private void showSnackBar(String message) {
+        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content),
+                message, Snackbar.LENGTH_SHORT);
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView
+                .findViewById(R.id.snackbar_text);
+        textView.setTextColor(ContextCompat.getColor(this, R.color.white));
+        snackbar.show();
+    }
+
     public void setUnBinder(Unbinder unBinder) {
         mUnBinder = unBinder;
     }
@@ -90,5 +119,15 @@ public class BaseActivity extends AppCompatActivity implements MvpView{
             mUnBinder.unbind();
         }
         super.onDestroy();
+    }
+
+    @Override
+    public void onFragmentAttached() {
+
+    }
+
+    @Override
+    public void onFragmentDetached(String tag) {
+
     }
 }

@@ -1,13 +1,17 @@
 package com.coo.mvp_coco.ui.home.fragment;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.coo.mvp_coco.R;
+import com.coo.mvp_coco.di.component.ActivityComponent;
 import com.coo.mvp_coco.ui.home.HomeModel;
 import com.coo.mvp_coco.ui.home.fragment.msgfg.HomeFragmentMvpView;
 import com.coo.mvp_coco.ui.home.fragment.msgfg.HomeFragmentPresenter;
 
 import javax.inject.Inject;
+
+import butterknife.ButterKnife;
 
 
 /**
@@ -15,31 +19,24 @@ import javax.inject.Inject;
  */
 public class HomeFragment extends LazyFragment implements HomeFragmentMvpView {
 
-//    @Inject
-//    HomeFragmentPresenter homeFragmentPresenter;
+    @Inject
+    HomeFragmentPresenter homeFragmentPresenter;
 
     @Override
     protected void onCreateViewLazy(Bundle savedInstanceState) {
         super.onCreateViewLazy(savedInstanceState);
-        setContentView(R.layout.fragment_message);
+        setContentView(R.layout.fragment_message,savedInstanceState);
 
-//        getmFragmentComponent().inject(this);
-//
-//        homeFragmentPresenter.onAttach(this);
-
-//        getData();
+        ActivityComponent component = getActivityComponent();
+        if (component != null) {
+            component.inject(this);
+            homeFragmentPresenter.onAttach(this);
+        }
     }
 
     @Override
     protected void onDestroyViewLazy() {
         super.onDestroyViewLazy();
-    }
-
-    /**
-     * 获取数据
-     */
-    public void  getData() {
-
     }
 
     @Override
@@ -49,6 +46,21 @@ public class HomeFragment extends LazyFragment implements HomeFragmentMvpView {
 
     @Override
     public void refreshView(HomeModel homeModel) {
+
+    }
+
+    @Override
+    protected void setUp(View view) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+
+    @Override
+    public void openKeyboard() {
 
     }
 }

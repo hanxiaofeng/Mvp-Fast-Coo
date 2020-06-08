@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.coo.mvp_coco.di.ActivityContext;
 import com.coo.mvp_coco.di.PerActivity;
+import com.coo.mvp_coco.ui.home.fragment.msgfg.HomeFragmentMvpPresenter;
+import com.coo.mvp_coco.ui.home.fragment.msgfg.HomeFragmentMvpView;
+import com.coo.mvp_coco.ui.home.fragment.msgfg.HomeFragmentPresenter;
 import com.coo.mvp_coco.ui.main.MainMvpPresenter;
 import com.coo.mvp_coco.ui.main.MainMvpView;
 import com.coo.mvp_coco.ui.main.MainPresenter;
@@ -44,6 +47,11 @@ public class ActivityModule {
     @Provides
     @PerActivity
     MainMvpPresenter<MainMvpView> provideMainPresenter(MainPresenter<MainMvpView> presenter){
+        return presenter;
+    }
+
+    @Provides
+    HomeFragmentMvpPresenter<HomeFragmentMvpView> provideHomeFragmentPresenter(HomeFragmentPresenter<HomeFragmentMvpView> presenter){
         return presenter;
     }
 

@@ -13,7 +13,7 @@ public class FindFragment extends LazyFragment {
     @Override
     protected void onCreateViewLazy(Bundle savedInstanceState) {
         super.onCreateViewLazy(savedInstanceState);
-        setContentView(R.layout.fragment_find);
+        setContentView(R.layout.fragment_find,savedInstanceState);
         getData();
     }
 

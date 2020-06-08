@@ -6,6 +6,7 @@ import com.coo.coonet.callback.SimpleCallBack;
 import com.coo.coonet.exception.ApiException;
 import com.coo.coonet.model.CooApiResult;
 import com.coo.mvp_coco.data.DataManager;
+import com.coo.mvp_coco.di.PerActivity;
 import com.coo.mvp_coco.ui.base.BasePresenter;
 import com.coo.mvp_coco.ui.home.HomeModel;
 import com.coo.mvp_coco.utils.AppConstants;
@@ -14,6 +15,7 @@ import com.coo.mvp_coco.utils.rx.SchedulerProvider;
 import javax.inject.Inject;
 
 import timber.log.Timber;
+
 
 public class HomeFragmentPresenter<V extends HomeFragmentMvpView> extends BasePresenter<V> implements HomeFragmentMvpPresenter<V> {
 

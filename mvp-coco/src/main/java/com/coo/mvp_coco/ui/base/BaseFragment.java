@@ -1,143 +1,73 @@
+/*
+ * Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://mindorks.com/license/apache-v2
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License
+ */
+
 package com.coo.mvp_coco.ui.base;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 
-import com.coo.mvp_coco.MvpApp;
 import com.coo.mvp_coco.di.component.ActivityComponent;
-import com.coo.mvp_coco.di.component.DaggerFragmentComponent;
-import com.coo.mvp_coco.di.component.FragmentComponent;
-import com.coo.mvp_coco.di.module.FragmentModule;
 import com.coo.mvp_coco.utils.CommonUtils;
 
-import java.lang.reflect.Field;
-
-import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class BaseFragment extends Fragment implements MvpView {
-    protected LayoutInflater inflater;
-    private View contentView;
-    private Context context;
-    private ViewGroup container;
+/**
+ * Created by janisharali on 27/01/17.
+ */
 
+public abstract class BaseFragment extends Fragment implements MvpView {
+
+    public BaseActivity mActivity;
+    private Unbinder mUnBinder;
     private ProgressDialog mProgressDialog;
 
-    private FragmentComponent mFragmentComponent;
-
-    private Unbinder mUnBinder;
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        context = getActivity().getApplicationContext();
-
-        mFragmentComponent = DaggerFragmentComponent.builder()
-                .fragmentModule(new FragmentModule(this))
-                .applicationComponent(((MvpApp)context).getComponent())
-                .build();
-
-        /*mFragmentComponent = DaggerFragmentComponent.builder()
-                .fragmentModule(new FragmentModule(this))
-                .build();*/
-
-
-    }
-
-    //子类通过重写onCreateView，调用setOnContentView进行布局设置，否则contentView==null，返回null
-    @Override
-    public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        this.inflater = inflater;
-        this.container = container;
-        onCreateView(savedInstanceState);
-        if (contentView == null)
-            return super.onCreateView(inflater, container, savedInstanceState);
-        return contentView;
-    }
-
-    public FragmentComponent getmFragmentComponent() {
-        return mFragmentComponent;
-    }
-
-    protected void onCreateView(Bundle savedInstanceState) {
-
+        setHasOptionsMenu(false);
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        contentView = null;
-        container = null;
-        inflater = null;
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setUp(view);
     }
 
-    public Context getApplicationContext() {
-        return context;
-    }
-
-    public void setContentView(int layoutResID) {
-        View view = (ViewGroup) inflater.inflate(layoutResID, container, false);
-        setContentView(view);
-        setUnBinder(ButterKnife.bind(this,view));
-    }
-
-    public void setContentView(View view) {
-        contentView = view;
-    }
-
-    public View getContentView() {
-        return contentView;
-    }
-
-    public View findViewById(int id) {
-        if (contentView != null)
-            return contentView.findViewById(id);
-        return null;
-    }
-
-    // http://stackoverflow.com/questions/15207305/getting-the-error-java-lang-illegalstateexception-activity-has-been-destroyed
     @Override
-    public void onDetach() {
-        Log.d("TAG", "onDetach() : ");
-        super.onDetach();
-        try {
-            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
-            childFragmentManager.setAccessible(true);
-            childFragmentManager.set(this, null);
-
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof BaseActivity) {
+            BaseActivity activity = (BaseActivity) context;
+            this.mActivity = activity;
+            activity.onFragmentAttached();
         }
-    }
-
-    public void setUnBinder(Unbinder unBinder) {
-        mUnBinder = unBinder;
-    }
-
-    @Override
-    public void onDestroy() {
-        Log.d("TAG", "onDestroy() : ");
-        if (mUnBinder != null) {
-            mUnBinder.unbind();
-        }
-        super.onDestroy();
     }
 
     @Override
     public void showLoading() {
         hideLoading();
-        mProgressDialog = CommonUtils.showLoadingDialog(getActivity());
+        mProgressDialog = CommonUtils.showLoadingDialog(this.getContext());
     }
 
     @Override
@@ -148,27 +78,83 @@ public class BaseFragment extends Fragment implements MvpView {
     }
 
     @Override
-    public void showMessage(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    public void onError(String message) {
+        if (mActivity != null) {
+            mActivity.onError(message);
+        }
     }
 
     @Override
-    public void showMessage(int resId) {
-        Toast.makeText(getActivity(), getString(resId), Toast.LENGTH_SHORT).show();
+    public void onError(@StringRes int resId) {
+        if (mActivity != null) {
+            mActivity.onError(resId);
+        }
+    }
+
+    @Override
+    public void showMessage(String message) {
+        if (mActivity != null) {
+            mActivity.showMessage(message);
+        }
+    }
+
+    @Override
+    public void showMessage(@StringRes int resId) {
+        if (mActivity != null) {
+            mActivity.showMessage(resId);
+        }
     }
 
     @Override
     public boolean isNetworkConnected() {
+        if (mActivity != null) {
+            return mActivity.isNetworkConnected();
+        }
         return false;
     }
 
     @Override
-    public void openKeyboard() {
-
+    public void onDetach() {
+        mActivity = null;
+        super.onDetach();
     }
 
     @Override
     public void hideKeyboard() {
+        if (mActivity != null) {
+            mActivity.hideKeyboard();
+        }
+    }
 
+    public ActivityComponent getActivityComponent() {
+        if (mActivity != null) {
+            return mActivity.getmActivityComponent();
+        }
+        return null;
+    }
+
+    public BaseActivity getBaseActivity() {
+        return mActivity;
+    }
+
+    public void setUnBinder(Unbinder unBinder) {
+        mUnBinder = unBinder;
+    }
+
+    protected abstract void setUp(View view);
+
+    @Override
+    public void onDestroy() {
+        if (mUnBinder != null) {
+            mUnBinder.unbind();
+        }
+        super.onDestroy();
+    }
+
+    public interface Callback {
+
+        void onFragmentAttached();
+
+        void onFragmentDetached(String tag);
     }
 }

@@ -4,8 +4,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.coo.mvp_coco.R;
 import com.coo.mvp_coco.ui.base.BaseFragment;
@@ -33,7 +37,40 @@ public class LazyFragment extends BaseFragment {
     private FrameLayout layout;
     private boolean isStart = false;//是否处于可见状态，in the screen
 
+    @Nullable
     @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+//        return super.onCreateView(inflater, container, savedInstanceState);
+        Log.d("TAG", "onCreateView() : " + "getUserVisibleHint():" + getUserVisibleHint());
+        super.onCreateView(inflater, container, savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            isLazyLoad = bundle.getBoolean(INTENT_BOOLEAN_LAZYLOAD, isLazyLoad);
+        }
+        //判断是否懒加载
+        if (isLazyLoad) {
+            //一旦isVisibleToUser==true即可对真正需要的显示内容进行加载
+            if (getUserVisibleHint() && !isInit) {
+                this.savedInstanceState = savedInstanceState;
+                onCreateViewLazy(savedInstanceState);
+                isInit = true;
+            } else {
+                //进行懒加载
+                layout = new FrameLayout(mActivity.getApplicationContext());
+                layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+                View view = LayoutInflater.from(mActivity.getApplicationContext()).inflate(R.layout.fragment_lazy_loading, null);
+                layout.addView(view);
+                return super.onCreateView(inflater, layout, savedInstanceState);
+            }
+        } else {
+            //不需要懒加载，开门江山，调用onCreateViewLazy正常加载显示内容即可
+            onCreateViewLazy(savedInstanceState);
+            isInit = true;
+        }
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+   /* @Override
     protected final void onCreateView(Bundle savedInstanceState) {
         Log.d("TAG", "onCreateView() : " + "getUserVisibleHint():" + getUserVisibleHint());
         super.onCreateView(savedInstanceState);
@@ -61,7 +98,7 @@ public class LazyFragment extends BaseFragment {
             onCreateViewLazy(savedInstanceState);
             isInit = true;
         }
-    }
+    }*/
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -70,13 +107,13 @@ public class LazyFragment extends BaseFragment {
         //一旦isVisibleToUser==true即可进行对真正需要的显示内容的加载
 
         //可见，但还没被初始化
-        if (isVisibleToUser && !isInit && getContentView() != null) {
+        if (isVisibleToUser && !isInit && getView() != null) {
             onCreateViewLazy(savedInstanceState);
             isInit = true;
             onResumeLazy();
         }
         //已经被初始化（正常加载）过了
-        if (isInit && getContentView() != null) {
+        if (isInit && getView() != null) {
             if (isVisibleToUser) {
                 isStart = true;
                 onFragmentStartLazy();
@@ -87,30 +124,29 @@ public class LazyFragment extends BaseFragment {
         }
     }
 
-    @Override
-    public void setContentView(int layoutResID) {
+    public void setContentView(int layoutResID, Bundle savedInstanceState) {
         //判断若isLazyLoad==true,移除所有lazy view，加载真正要显示的view
-        if (isLazyLoad && getContentView() != null && getContentView().getParent() != null) {
+        if (isLazyLoad && getView() != null && getView().getParent() != null) {
             layout.removeAllViews();
-            View view = inflater.inflate(layoutResID, layout, false);
+            View view = LayoutInflater.from(mActivity).inflate(layoutResID, layout, false);
             layout.addView(view);
         }
         //否则，开门见山，直接加载
         else {
-            super.setContentView(layoutResID);
+            ViewGroup view = (ViewGroup) LayoutInflater.from(mActivity).inflate(layoutResID, null, false);
+            super.onCreateView(LayoutInflater.from(mActivity), view, savedInstanceState);
         }
     }
 
-    @Override
-    public void setContentView(View view) {
+    public void setContentView(View view, Bundle savedInstanceState) {
         //判断若isLazyLoad==true,移除所有lazy view，加载真正要显示的view
-        if (isLazyLoad && getContentView() != null && getContentView().getParent() != null) {
+        if (isLazyLoad && getView() != null && getView().getParent() != null) {
             layout.removeAllViews();
             layout.addView(view);
         }
         //否则，开门见山，直接加载
         else {
-            super.setContentView(view);
+            super.onViewCreated(view, savedInstanceState);
         }
     }
 
@@ -191,5 +227,15 @@ public class LazyFragment extends BaseFragment {
             onDestroyViewLazy();
         }
         isInit = false;
+    }
+
+    @Override
+    protected void setUp(View view) {
+
+    }
+
+    @Override
+    public void openKeyboard() {
+
     }
 }

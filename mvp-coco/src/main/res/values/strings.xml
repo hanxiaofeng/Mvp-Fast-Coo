@@ -20,4 +20,7 @@
     <string name="profile_txt_username">超级无敌大坏蛋</string>
     <string name="profile_txt_userid">微信号：dalong2008</string>
     <string name="profile_txt_mycode">我的二维码</string>
+
+
+    <string name="some_error">error occurred!</string>
 </resources>
