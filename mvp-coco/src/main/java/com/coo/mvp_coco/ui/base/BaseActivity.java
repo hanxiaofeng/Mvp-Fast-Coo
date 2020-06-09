@@ -39,7 +39,7 @@ public class BaseActivity extends AppCompatActivity implements MvpView, BaseFrag
                 .applicationComponent(((MvpApp)getApplication()).getComponent())
                 .build();
 
-        setUnBinder(ButterKnife.bind(this));
+
     }
 
     public ActivityComponent getmActivityComponent() {

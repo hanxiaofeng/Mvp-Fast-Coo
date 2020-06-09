@@ -5,6 +5,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:text="清风"
+            />
+
+    </androidx.appcompat.widget.Toolbar>
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
@@ -15,7 +32,7 @@
         android:id="@+id/group_tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
+        android:background="@color/header"
         android:paddingTop="5dp"
         android:paddingBottom="5dp">
 
@@ -28,7 +45,7 @@
             app:tabIcon="@mipmap/chats"
             app:tabIconSelect="@mipmap/chats_green"
             app:tabLablebackground="@color/item_tab_bg"
-            app:tabName="微信"
+            app:tabName="广场"
             app:tabNameColor="@android:color/darker_gray"
             app:tabNameSelectColor="@color/tab_bg_green"
             app:tabNameSize="@dimen/tabNameSize" />
@@ -40,7 +57,7 @@
             app:tabIcon="@mipmap/contacts"
             app:tabIconSelect="@mipmap/contacts_green"
             app:tabLableColor="@android:color/white"
-            app:tabName="通讯录"
+            app:tabName="问答"
             app:tabNameColor="@android:color/darker_gray"
             app:tabNameSelectColor="@color/tab_bg_green"
             app:tabNameSize="@dimen/tabNameSize" />
@@ -52,7 +69,7 @@
             android:layout_weight="1"
             app:tabIcon="@mipmap/discover"
             app:tabIconSelect="@mipmap/discover_green"
-            app:tabName="发现"
+            app:tabName="收藏"
             app:tabNameColor="@android:color/darker_gray"
             app:tabNameSelectColor="@color/tab_bg_green"
             app:tabNameSize="@dimen/tabNameSize" />

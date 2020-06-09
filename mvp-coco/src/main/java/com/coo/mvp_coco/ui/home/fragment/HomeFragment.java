@@ -19,6 +19,7 @@ import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.coo.mvp_coco.R;
 import com.coo.mvp_coco.di.component.ActivityComponent;
 import com.coo.mvp_coco.ui.base.BaseFragment;
+import com.coo.mvp_coco.ui.home.HomeActivity;
 import com.coo.mvp_coco.ui.home.HomeModel;
 import com.coo.mvp_coco.ui.home.HomeMvpView;
 import com.coo.mvp_coco.ui.home.adapter.HomeAdapter;
@@ -85,7 +86,8 @@ public class HomeFragment extends BaseFragment implements HomeFragmentMvpView {
         homeAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                ToastUtils.showLong("" + position);
+                HomeModel.ArticleInfo articleInfo = (HomeModel.ArticleInfo) adapter.getData().get(position);
+                ((HomeActivity)mActivity).jumpWebActivity(articleInfo.getLink());
             }
         });
 

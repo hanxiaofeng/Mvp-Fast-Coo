@@ -23,4 +23,5 @@
 
 
     <string name="some_error">error occurred!</string>
+    <string name="action_settings">关于我们</string>
 </resources>
