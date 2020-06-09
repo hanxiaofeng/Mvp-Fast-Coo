@@ -103,4 +103,6 @@ dependencies {
     //api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.47'
     api "com.github.CymChad:BaseRecyclerViewAdapterHelper:$rootProject.adapterHelper"
     implementation "com.blankj:utilcodex:$rootProject.utilcodexVersion"
+    //下拉刷新
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-rc01'
 }
